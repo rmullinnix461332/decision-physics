@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision Physics Documentation Content Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_name", "schema_version", "entity_id", "generated_at", "documents"],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "decision-physics.documentation.content-index"
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of this schema (e.g., 0.1.0)."
+    },
+    "entity_id": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "documents": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["doc_id", "title", "kind", "source", "md5"],
+        "properties": {
+          "doc_id": { "type": "string" },
+          "title": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["required", "recommended", "nice_to_have"]
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["repo_type", "repo_org", "repo_slug", "path"],
+            "properties": {
+              "repo_type": { "type": "string" },
+              "repo_org": { "type": "string" },
+              "repo_slug": { "type": "string" },
+              "ref": {
+                "type": "string",
+                "description": "Optional git ref/branch/tag/SHA."
+              },
+              "path": { "type": "string" }
+            }
+          },
+          "md5": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{32}$",
+            "description": "Lowercase hex MD5 of document content bytes."
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+# transaction.schema.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision Physics Transaction Log Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "txn_id",
+    "occurred_at",
+    "ingested_at",
+    "entity_id",
+    "entity_type",
+    "domain",
+    "operation",
+    "summary",
+    "payload"
+  ],
+  "properties": {
+    "txn_id": {
+      "type": "string",
+      "description": "UUID for this transaction."
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the change occurred (event time)."
+    },
+    "ingested_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the transaction was recorded (ingest time)."
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Stable identifier for the entity this transaction applies to."
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": ["service", "application", "platform", "component"],
+      "description": "Type of IT entity."
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["metadata", "deployment", "technology", "security", "documentation", "testing", "signals"],
+      "description": "Transaction domain."
+    },
+    "operation": {
+      "type": "string",
+      "enum": ["create", "update", "delete"],
+      "description": "Operation type."
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Concise description of the change."
+    },
+
+    "actor": {
+      "type": "string",
+      "description": "Person or service principal responsible for the change."
+    },
+    "source": {
+      "type": "string",
+      "description": "Emitting system/collector name."
+    },
+    "commit_sha": {
+      "type": "string",
+      "description": "Git commit SHA if applicable."
+    },
+    "idempotency_key": {
+      "type": "string",
+      "description": "Stable key for deduplication of repeated emissions."
+    },
+
+    "correlation_id": {
+      "type": "string",
+      "description": "Associates multiple transactions with one workflow execution."
+    },
+    "caused_by_txn_id": {
+      "type": "string",
+      "description": "Parent transaction ID if this transaction is derived from another."
+    },
+
+    "before_ref": {
+      "type": "string",
+      "description": "Reference to materialized artifact before update (e.g., S3 version ID)."
+    },
+    "after_ref": {
+      "type": "string",
+      "description": "Reference to materialized artifact after update (e.g., S3 version ID)."
+    },
+
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Schema name (e.g., entity-envelope, deployment-panel, drift-signal)."
+        },
+        "from": {
+          "type": "string",
+          "description": "Previous schema version."
+        },
+        "to": {
+          "type": "string",
+          "description": "New schema version."
+        }
+      }
+    },
+
+    "payload": {
+      "description": "Type-specific payload (intentionally unconstrained in v0.1)."
+    }
+  }
+}

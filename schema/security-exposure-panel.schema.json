@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision Physics Security Exposure Panel",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "schema_version",
+    "generated_at",
+    "uploaded_at",
+    "period",
+    "scope",
+    "last_scanned",
+    "findings_by_environment",
+    "evidence",
+    "total_derived",
+    "critical_derived",
+    "high_derived",
+    "medium_derived",
+    "low_derived",
+    "resolved_total_derived",
+    "resolved_critical_derived",
+    "resolved_high_derived",
+    "resolved_medium_derived",
+    "resolved_low_derived"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "decision-physics.panels.security-exposure"
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of this schema (e.g., 0.1.0)."
+    },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "uploaded_at": { "type": "string", "format": "date-time" },
+
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "start_date", "end_date"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "start_date": { "type": "string" },
+        "end_date": { "type": "string" }
+      }
+    },
+
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environments", "signals"],
+      "properties": {
+        "environments": { "type": "array", "items": { "type": "string" } },
+        "signals": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "last_scanned": { "type": "string", "format": "date-time" },
+
+    "findings_by_environment": {
+      "type": "object",
+      "description": "Map of vulnerability counts keyed by environment name.",
+      "additionalProperties": { "$ref": "#/$defs/vuln_counts" }
+    },
+
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary_ref", "latest_ref"],
+      "properties": {
+        "summary_ref": { "type": "string" },
+        "latest_ref": { "type": "string" }
+      }
+    },
+
+    "total_derived": { "type": "integer", "minimum": 0 },
+    "critical_derived": { "type": "integer", "minimum": 0 },
+    "high_derived": { "type": "integer", "minimum": 0 },
+    "medium_derived": { "type": "integer", "minimum": 0 },
+    "low_derived": { "type": "integer", "minimum": 0 },
+
+    "resolved_total_derived": { "type": "integer", "minimum": 0 },
+    "resolved_critical_derived": { "type": "integer", "minimum": 0 },
+    "resolved_high_derived": { "type": "integer", "minimum": 0 },
+    "resolved_medium_derived": { "type": "integer", "minimum": 0 },
+    "resolved_low_derived": { "type": "integer", "minimum": 0 }
+  },
+
+  "$defs": {
+    "vuln_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_findings",
+
+        "new_critical_findings",
+        "critical_findings",
+        "resolved_critical_findings",
+
+        "new_high_findings",
+        "high_findings",
+        "resolved_high_findings",
+
+        "new_medium_findings",
+        "medium_findings",
+        "resolved_medium_findings",
+
+        "new_low_findings",
+        "low_findings",
+        "resolved_low_findings",
+
+        "resolved_total_findings"
+      ],
+      "properties": {
+        "total_findings": { "type": "integer", "minimum": 0 },
+
+        "new_critical_findings": { "type": "integer", "minimum": 0 },
+        "critical_findings": { "type": "integer", "minimum": 0 },
+        "resolved_critical_findings": { "type": "integer", "minimum": 0 },
+
+        "new_high_findings": { "type": "integer", "minimum": 0 },
+        "high_findings": { "type": "integer", "minimum": 0 },
+        "resolved_high_findings": { "type": "integer", "minimum": 0 },
+
+        "new_medium_findings": { "type": "integer", "minimum": 0 },
+        "medium_findings": { "type": "integer", "minimum": 0 },
+        "resolved_medium_findings": { "type": "integer", "minimum": 0 },
+
+        "new_low_findings": { "type": "integer", "minimum": 0 },
+        "low_findings": { "type": "integer", "minimum": 0 },
+        "resolved_low_findings": { "type": "integer", "minimum": 0 },
+
+        "resolved_total_findings": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

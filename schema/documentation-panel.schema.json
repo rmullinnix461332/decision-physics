@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision Physics Documentation Panel",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "schema_version",
+    "entity_id",
+    "computed_at",
+    "metrics",
+    "required_documents",
+    "recommended_documents",
+    "nice_to_have_documents",
+    "missing_required",
+    "missing_recommended"
+  ],
+  "properties": {
+    "schema_name": {
+      "type": "string",
+      "const": "decision-physics.panels.documentation"
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of this schema (e.g., 0.1.0)."
+    },
+    "entity_id": { "type": "string" },
+    "computed_at": { "type": "string", "format": "date-time" },
+
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["completeness_percent", "required_covered", "required_total"],
+      "properties": {
+        "completeness_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "required_covered": { "type": "integer", "minimum": 0 },
+        "required_total": { "type": "integer", "minimum": 0 },
+        "recommended_covered": { "type": "integer", "minimum": 0 },
+        "recommended_total": { "type": "integer", "minimum": 0 },
+        "nice_to_have_covered": { "type": "integer", "minimum": 0 },
+        "nice_to_have_total": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "required_documents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/document_expectation" }
+    },
+    "recommended_documents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/document_expectation" }
+    },
+    "nice_to_have_documents": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/document_expectation" }
+    },
+
+    "missing_required": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/missing_doc" }
+    },
+    "missing_recommended": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/missing_doc" }
+    },
+
+    "notes": {
+      "type": "string"
+    }
+  },
+
+  "$defs": {
+    "document_expectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc_key", "description"],
+      "properties": {
+        "doc_key": {
+          "type": "string",
+          "description": "Policy-defined key (e.g., runbook, adr, support-contacts)."
+        },
+        "description": { "type": "string" }
+      }
+    },
+    "missing_doc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc_key", "reason"],
+      "properties": {
+        "doc_key": { "type": "string" },
+        "reason": {
+          "type": "string",
+          "description": "Why this is missing (not found, not indexed, invalid hash, etc.)."
+        }
+      }
+    }
+  }
+}

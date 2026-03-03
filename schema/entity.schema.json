@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Decision Physics Base Entity Envelope",
+  "type": "object",
+  "required": [
+    "entity_id",
+    "entity_type",
+    "identity",
+    "governance",
+    "ownership",
+    "location",
+    "intelligence",
+    "access",
+    "operations"
+  ],
+  "properties": {
+    "entity_id": {
+      "type": "string"
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": ["service", "application", "platform", "component"]
+    },
+    "identity": {
+      "type": "object",
+      "required": ["catalog_id", "display_name", "lifecycle_stage", "created_at"],
+      "properties": {
+        "catalog_id": { "type": "string" },
+        "display_name": { "type": "string" },
+        "lifecycle_stage": {
+          "type": "string",
+          "enum": ["experimental", "active", "deprecated"]
+        },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["criticality", "data_classification", "contains_pii"],
+      "properties": {
+        "criticality": {
+          "type": "string",
+          "enum": ["low", "moderate", "high", "mission-critical"]
+        },
+        "data_classification": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted"]
+        },
+        "contains_pii": { "type": "boolean" },
+        "regulatory_scope": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "control_frameworks": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exception_status": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "ownership": {
+      "type": "object",
+      "required": ["organization", "team"],
+      "properties": {
+        "organization": { "type": "string" },
+        "business_domain": { "type": "string" },
+        "system_domain": { "type": "string" },
+        "team": { "type": "string" },
+        "primary_contact": { "type": "string" },
+        "secondary_contact": { "type": "string" }
+      }
+    },
+    "location": {
+      "type": "object",
+      "required": ["repo_type", "repo_org", "repo_slug"],
+      "properties": {
+        "repo_type": { "type": "string" },
+        "repo_org": { "type": "string" },
+        "repo_slug": { "type": "string" },
+        "default_branch": { "type": "string" },
+        "deployment_artifacts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "intelligence": {
+      "type": "object",
+      "required": ["agent_readable", "knowledge_plane"],
+      "properties": {
+        "agent_readable": { "type": "boolean" },
+        "intent_boundary": { "type": "string" },
+        "knowledge_plane": {
+          "type": "string",
+          "enum": ["public", "restricted", "private"]
+        },
+        "deterministic_tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "memory_scope": {
+          "type": "string",
+          "enum": ["local", "shared", "institutional"]
+        }
+      }
+    },
+    "access": {
+      "type": "object",
+      "required": ["audience", "boundary"],
+      "properties": {
+        "audience": {
+          "type": "string",
+          "enum": ["internal", "partner", "customer", "public"]
+        },
+        "boundary": {
+          "type": "string",
+          "enum": ["internal", "internet"]
+        },
+        "methods": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "roles_required": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "authentication_mechanisms": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "operations": {
+      "type": "object",
+      "required": ["delivery_system"],
+      "properties": {
+        "delivery_system": { "type": "string" },
+        "cluster": { "type": "string" },
+        "runtime": { "type": "string" },
+        "foundation_version": { "type": "string" },
+        "helm_chart_version": { "type": "string" },
+        "last_deploy_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
